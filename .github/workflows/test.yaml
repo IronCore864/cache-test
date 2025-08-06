@@ -30,4 +30,5 @@ jobs:
           key: ${{ runner.os }}-apt
       - run: sudo apt install -y python3-venv python3-pip
       - run: sudo snap install jq yq
-      - run: sudo snap install --classic concierge charmcraft
+      - run: sudo snap install --classic concierge
+      - run: sudo snap install --classic charmcraft
