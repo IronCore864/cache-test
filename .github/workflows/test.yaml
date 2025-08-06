@@ -32,3 +32,10 @@ jobs:
       - run: sudo snap install jq yq
       - run: sudo snap install --classic concierge
       - run: sudo snap install --classic charmcraft
+      - name: Adjust Snap cache permissions
+        run: |
+          sudo mkdir -p /var/lib/snapd/cache
+          sudo chown -R $USER:$USER /var/snap
+          sudo chown -R $USER:$USER /var/lib/snapd/cache
+          sudo chmod -R a+r /var/snap
+          sudo chmod -R a+r /var/lib/snapd/cache
