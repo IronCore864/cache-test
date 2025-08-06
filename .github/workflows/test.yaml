@@ -31,6 +31,6 @@ jobs:
         with:
           path: /var/cache/apt
           key: ${{ runner.os }}-apt
-      - run: sudo apt install -y python3-venv python3-pip3
+      - run: sudo apt install -y python3-venv python3-pip
       - run: sudo snap install jq yq charmcraft
       - run: sudo snap install --classic concierge
