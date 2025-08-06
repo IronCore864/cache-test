@@ -1,0 +1,36 @@
+name: test
+
+on:
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest  
+    steps:
+      - run: |
+          sudo apt-get remove -y docker-ce docker-ce-cli containerd.io
+          sudo rm -rf /run/containerd
+      - name: Adjust Snap cache permissions
+        run: |
+          sudo mkdir -p /var/lib/snapd/cache
+          sudo chown -R $USER:$USER /var/snap
+          sudo chown -R $USER:$USER /var/lib/snapd/cache
+          sudo chmod -R a+r /var/snap
+          sudo chmod -R a+r /var/lib/snapd/cache
+      - uses: actions/cache@v4
+        id: snap-cache
+        with:
+          path: |
+            /var/snap
+            /var/lib/snapd/cache
+          key: ${{ runner.os }}-snapd-preset-${{ matrix.preset }}
+      - uses: actions/cache@v4
+        id: apt-cache
+        with:
+          path: /var/cache/apt
+          key: ${{ runner.os }}-apt-preset-${{ matrix.preset }}
+      - run: sudo apt install -y python3-venv python3-pip3
+      - run: sudo snap install jq yq charmcraft
+      - run: sudo snap install --classic concierge
